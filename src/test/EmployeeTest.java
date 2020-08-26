@@ -16,6 +16,8 @@ public class EmployeeTest {
 	private Employee SupervisorNoUSD;
 	private Employee WorkerUSD;
 	private Employee WorkerNoUSD;
+	private Employee ManagerUSD;
+	private Employee ManagerNoUSD;
 	
 	@Before
     public void init() {
@@ -23,6 +25,8 @@ public class EmployeeTest {
 		SupervisorNoUSD = new Employee(456.68F, "WON", 5.5F, EmployeeType.Supervisor);
 		WorkerUSD = new Employee(1000,"USD",0.1f,EmployeeType.Worker);
         WorkerNoUSD = new Employee(1000,"EU",0.1f,EmployeeType.Worker);
+        ManagerUSD = new Employee(5000.99f,"USD", 2.3F, EmployeeType.Manager);
+        ManagerNoUSD = new Employee(5000.99f,"YEN", 2.3F, EmployeeType.Manager);
     }
 	
 	/**
@@ -113,5 +117,50 @@ public class EmployeeTest {
 	    	valorEsperado = 966.083f;
 	    }
 		assertEquals(valorEsperado, WorkerNoUSD.cs(), 0.0001);
+	}
+	
+	
+	/**
+	 * Este caso de prueba evalúa el cálculo del salario
+	 * para un tipo de empleado "Manager", cuando el tipo de moneda es USD.
+	 * Cuando el mes es PAR, el empleado NO recibe decimo.
+	 * Cuando el mes es IMPAR, el empleado SI recibe decimo.
+	 */
+	@Test
+	public void csUSDManagerDecimoTest() {
+		float valorEsperado;
+		Date date = new Date();
+		LocalDate localDate;
+	    localDate = date.toInstant()
+	            .atZone(ZoneId.systemDefault()).toLocalDate();
+	    int month = localDate.getMonthValue();
+	    if(month%2==0) {
+	    	valorEsperado =5002.6f ;
+	    }else {
+	    	valorEsperado = 5018.683f;
+	    }
+		assertEquals(valorEsperado, ManagerUSD.cs(), 0.001);
+	}
+	
+	/**
+	 * Este caso de prueba evalúa el cálculo del salario
+	 * para un tipo de empleado "Manager", cuando el tipo de moneda es NoUSD.
+	 * Cuando el mes es PAR, el empleado NO recibe decimo.
+	 * Cuando el mes es IMPAR, el empleado SI recibe decimo.
+	 */
+	@Test
+	public void csNoUSDManagerDecimoTest() {
+		float valorEsperado;
+		Date date = new Date();
+		LocalDate localDate;
+	    localDate = date.toInstant()
+	            .atZone(ZoneId.systemDefault()).toLocalDate();
+	    int month = localDate.getMonthValue();
+	    if(month%2==0) {
+	    	valorEsperado =4752.55f ;
+	    }else {
+	    	valorEsperado = 4816.884f;
+	    }
+		assertEquals(valorEsperado, ManagerNoUSD.cs(), 0.001);
 	}
 }
