@@ -18,6 +18,10 @@ public class EmployeeTest {
 	private Employee WorkerNoUSD;
 	private Employee ManagerUSD;
 	private Employee ManagerNoUSD;
+	private Employee WorkerUSDyear;
+	private Employee SupervisorUSDyear;
+	private Employee ManagerUSDyear;
+	
 	
 	@Before
     public void init() {
@@ -27,6 +31,10 @@ public class EmployeeTest {
         WorkerNoUSD = new Employee(1000,"EU",0.1f,EmployeeType.Worker);
         ManagerUSD = new Employee(5000.99f,"USD", 2.3F, EmployeeType.Manager);
         ManagerNoUSD = new Employee(5000.99f,"YEN", 2.3F, EmployeeType.Manager);
+        
+        WorkerUSDyear =  new Employee(456.68F,"USD",0.0f,EmployeeType.Worker);
+        SupervisorUSDyear =  new Employee(1000f,"USD",0.0f,EmployeeType.Supervisor);
+        ManagerUSDyear =  new Employee(5000.99f,"USD",0.0f,EmployeeType.Manager);
     }
 	
 	/**
@@ -163,4 +171,45 @@ public class EmployeeTest {
 	    }
 		assertEquals(valorEsperado, ManagerNoUSD.cs(), 0.001);
 	}
+	
+	
+	//metodo  CalculateYearBonus().
+	
+	
+	
+	/**
+	 * En este caso de prueba se evalua el bono de fin de año
+	 * para un tipo de empleado "Worker", cuando el tipo de moneda es USD.
+	 * en donde se considera todo el salario.
+	 */
+	
+	@Test 
+	public void CalculateYearBonusUSDWTest() {
+		assertEquals(386.0f, WorkerUSDyear.CalculateYearBonus(),0.001);
+
+	}
+	/**
+	 * En este caso de prueba se evalua el bono de fin de año
+	 * para un tipo de empleado "Supervisor", cuando el tipo de moneda es USD.
+	 * en donde se considera todo el salario.
+	 */
+	
+	@Test 
+	public void CalculateYearBonusUSDSTest() {
+		assertEquals(1193f,  SupervisorUSDyear.CalculateYearBonus(),0.001);
+
+	}
+	/**
+	 * En este caso de prueba se evalua el bono de fin de año
+	 * para un tipo de empleado "Manager", cuando el tipo de moneda es USD.
+	 * en donde se considera todo el salario.
+	 */
+	
+	@Test 
+	public void CalculateYearBonusUSDMTest() {
+		assertEquals(5386.99f,  ManagerUSDyear.CalculateYearBonus(),0.001);
+
+	}
+	
+	
 }
